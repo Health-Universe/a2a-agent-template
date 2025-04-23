@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: dockerfiles/fastapi.Dockerfile
+    container_name: fastapi
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: .
+      dockerfile: dockerfiles/nginx.Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - fastapi
+    networks:
+      - app-network
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge
