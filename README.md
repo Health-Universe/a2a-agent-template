@@ -1,41 +1,49 @@
-# tool-template
-Template for making navigator tools
+# A2A Agent Template
 
-- 1 endpoint with a form based post
+Template for building A2A-compatible agents using Google's Agent-to-Agent SDK.
 
 ## Quickstart
 
 ```bash
-# Create a new repository from this template
-# Either use the GitHub "Use this template" button
-# Or manually clone and reinitialize:
-git clone https://github.com/Health-Universe/tool-template.git your-tool-name
-cd your-tool-name
-rm -rf .git
-git init
+# Install dependencies
+pip install -r requirements.txt
 
+# Run the agent
+python main.py
 ```
 
-### Development
-To make changes to the application:
-1. Modify the FastAPI application in `main.py`
-2. Update the API schema in `schemas.py`
+## Development
 
-## Notes and Caveats
-- multiselect fields must be specified like this:
+Customize your agent by modifying the `_process_request` method in `main.py`:
+
 ```python
-from pydantic import Field
-from typing import List
-
-multiselect_field: List[str] = Field(
-  title="Multiselect Field",
-    description="This is a multiselect field",
-    json_schema_extra={
-        "schema": {
-            "items": ["Item 1", "Item 2", "Item 3"],
-        }
+async def _process_request(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    # Your custom agent logic goes here
+    message = data.get("message", "No message provided")
+    
+    result = {
+        "status": "success",
+        "processed_message": f"Processed: {message}",
+        "agent": "TemplateAgent"
     }
-)
+    return result
 ```
+
+## Agent Structure
+
+- **AgentCard**: Defines agent metadata, capabilities, and skills
+- **AgentExecutor**: Handles incoming requests and processes them
+- **RequestContext**: Contains the incoming message and metadata
+- **EventQueue**: Used to send responses back to the requesting agent
+
+## Deployment
+
+The `app` variable exposes an A2AStarletteApplication instance for platform deployment.
+
+## Resources
+
+- [Google A2A Samples](https://github.com/a2aproject/a2a-samples) - Official A2A sample implementations
+- [A2A Python SDK Documentation](https://github.com/a2aproject/A2A) - Core A2A protocol and Python SDK
+- [Google ADK Python](https://github.com/google/adk-python) - Agent Development Kit for building sophisticated AI agents
 
 
