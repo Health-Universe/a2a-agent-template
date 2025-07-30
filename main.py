@@ -1,10 +1,10 @@
 import os
 import json
+import uvicorn
+
 from typing import Dict, Any
 
 from a2a.server.tasks import InMemoryTaskStore
-import uvicorn
-
 from a2a.server.apps import A2AStarletteApplication
 from a2a.types import (
     AgentCard,
