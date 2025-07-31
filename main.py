@@ -117,7 +117,7 @@ request_handler = DefaultRequestHandler(
     agent_executor=agent_executor,
     task_store=InMemoryTaskStore(),
 )
-app = A2AStarletteApplication(agent_card=agent_card, http_handler=request_handler)
+app = A2AStarletteApplication(agent_card=agent_card, http_handler=request_handler).build()
 
 if __name__ == "__main__":
 
